@@ -1,9 +1,16 @@
 const path = require('path');
 
-const nextConfig = {
-  output: 'export', // Xuất tĩnh để deploy lên GitHub Pages
+const isProd = process.env.NODE_ENV === 'production';
+const repoName = 'github-portfolio'; // Tên repository của bạn
+
+module.exports = {
+  output: 'export',
+  trailingSlash: true, // Để tránh lỗi 404 trên GitHub Pages
+  assetPrefix: isProd ? `/${repoName}/` : '', // Fix lỗi CSS bị thiếu trên GitHub Pages
+  sassOptions: {
+    includePaths: [path.join(__dirname, 'styles')],
+  },
   images: {
-    unoptimized: true, // Tắt tối ưu ảnh vì GitHub Pages không hỗ trợ Image Optimization
     domains: [
       'media.dev.to',
       'avatars.githubusercontent.com',
@@ -11,14 +18,8 @@ const nextConfig = {
       'github-readme-streak-stats.herokuapp.com',
       'stardev.io',
       'github-profile-summary-cards.vercel.app',
-      'github-profile-trophy.vercel.app'
+      'github-profile-trophy.vercel.app',
     ],
     dangerouslyAllowSVG: true,
   },
-  sassOptions: {
-    includePaths: [path.join(__dirname, 'styles')],
-  },
-  trailingSlash: true, // Bắt buộc để GitHub Pages có thể tìm đúng file
 };
-
-module.exports = nextConfig;

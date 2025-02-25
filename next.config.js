@@ -1,25 +1,29 @@
 const path = require('path');
 
 const isProd = process.env.NODE_ENV === 'production';
-const repoName = 'github-portfolio'; // Tên repository của bạn
+const repoName = 'github-portfolio'; // Đổi thành tên repo của bạn
 
-module.exports = {
-  output: 'export',
-  trailingSlash: true, // Để tránh lỗi 404 trên GitHub Pages
-  assetPrefix: isProd ? `/${repoName}/` : '', // Fix lỗi CSS bị thiếu trên GitHub Pages
-  sassOptions: {
-    includePaths: [path.join(__dirname, 'styles')],
-  },
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  output: "export", // Tự động export mà không cần `next export`
+  trailingSlash: true, // Fix lỗi 404 trên GitHub Pages
+  assetPrefix: isProd ? `/${repoName}/` : "", // Fix lỗi CSS không load trên GitHub Pages
   images: {
+    unoptimized: true, // Fix lỗi ảnh trên GitHub Pages
     domains: [
-      'media.dev.to',
-      'avatars.githubusercontent.com',
-      'github-readme-stats.vercel.app',
-      'github-readme-streak-stats.herokuapp.com',
-      'stardev.io',
-      'github-profile-summary-cards.vercel.app',
-      'github-profile-trophy.vercel.app',
+      "media.dev.to",
+      "avatars.githubusercontent.com",
+      "github-readme-stats.vercel.app",
+      "github-readme-streak-stats.herokuapp.com",
+      "stardev.io",
+      "github-profile-summary-cards.vercel.app",
+      "github-profile-trophy.vercel.app"
     ],
     dangerouslyAllowSVG: true,
   },
+  sassOptions: {
+    includePaths: [path.join(__dirname, "styles")],
+  },
 };
+
+module.exports = nextConfig;
